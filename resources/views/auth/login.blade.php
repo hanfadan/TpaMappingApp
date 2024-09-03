@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - PlainGIS Timber</title>
+    <title>Login - TPA Mapping Bogor</title>
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
     body {
         background: url('{{ asset('images/forest-background.jpg') }}') no-repeat center center fixed;
@@ -15,42 +16,85 @@
         height: 100vh;
         width: 85%;
         margin: 0;
-        color: #333; /* Adjusting text color */
+        color: #333;
     }
     .content-wrapper {
         display: flex;
-        align-items: center; /* Align items vertically */
-        padding: 20px; /* Padding for aesthetic spacing */
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        background: rgba(255, 255, 255, 0.85); /* Optional: Add background to the wrapper */
-        border-radius: 8px; /* Optional: Rounded corners for the wrapper */
-}
-    .title-section, .login-section {
-        width: 50%; /* Each section takes half of the content wrapper */
-        padding: 20px; /* Padding for internal spacing */
+        align-items: center;
+        justify-content: space-between;
+        width: 80%;
+        max-width: 1000px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+    }
+    .title-section {
+        width: 45%;
+        padding-right: 20px;
+        color: #2c3e50;
+        text-align: left;
+    }
+    .login-section {
+        width: 45%;
+        padding-left: 20px;
     }
     .login-logo a {
-        color: #004d40;
+        color: #27ae60;
         text-decoration: none;
-        font-size: 22px;
+        font-size: 28px;
         font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
     }
-    .login-box-msg {
+    .login-logo p {
+        font-size: 18px;
+        color: #34495e;
+        line-height: 1.5;
+        margin-bottom: 30px;
+    }
+    .input-group-text {
+        background-color: #ecf0f1;
+    }
+    .form-control {
+        border-radius: 4px;
+        border: 1px solid #bdc3c7;
+    }
+    .btn-primary {
+        background-color: #1abc9c; /* Updated color for "Sign In" */
+        width: 100%;
+        padding: 10px;
         font-size: 16px;
-        color: #666;
-        text-align: center;
+        color: #fff;
+        transition: background-color 0.3s ease;
     }
-    .btn-primary, .btn-success {
-        width: 100%; /* Full width buttons */
+    .btn-primary:hover {
+        background-color: #16a085; /* Darken on hover */
     }
-</style>
+    .btn-success {
+        background-color: #2ecc71; /* Updated color for "Sign Up" */
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: #fff;
+        transition: background-color 0.3s ease;
+    }
+    .btn-success:hover {
+        background-color: #16a085; /* Darken on hover */
+    }
+    .social-auth-links a {
+        display: block;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+    </style>
 </head>
 <body>
 <div class="content-wrapper">
     <div class="title-section">
         <div class="login-logo">
-            <a href="{{ url('/') }}">PlainGIS Timber</a>
-            <p>Environmental assessment for forest landowners using machine learning</p>
+            <a href="{{ url('/') }}">TPA Navigator Bogor</a>
+            <p>Aplikasi GIS untuk mencari TPA terdekat di Kota Bogor</p>
         </div>
     </div>
     <div class="login-section">
@@ -76,20 +120,16 @@
                 <div class="col-8">
                     <div class="icheck-primary">
                         <input type="checkbox" id="remember">
-                        <label for="remember">
-                            Remember me
-                        </label>
+                        <label for="remember">Remember me</label>
                     </div>
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
                 </div>
             </div>
-            <div class="social-auth-links text-center mt-2 mb-3">
-                <a href="#" class="btn btn-block btn-success">
-                    Sign up
-                </a>
-                <a href="{{ route('password.request') }}" class="text-center">Forgot password?</a>
+            <div class="social-auth-links text-center mt-3">
+                <a href="#" class="btn btn-success">Sign up</a>
+                <a href="{{ route('password.request') }}" class="d-block mt-2">Forgot password?</a>
             </div>
         </form>
     </div>
