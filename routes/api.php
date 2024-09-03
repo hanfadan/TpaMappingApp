@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TpaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::apiResource('tpas', 'TpaController');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::apiResource('tpas', TpaController::class);

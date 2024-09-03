@@ -1,0 +1,8 @@
+/* custom.css */
+.login-page, .register-page {
+    background: #C3E6CB; /* Background color like the login reference design */
+}
+
+.login-logo a, .register-logo a {
+    color: #007bff; /* Custom color for the logo text */
+}
