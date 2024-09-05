@@ -8,21 +8,24 @@
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet Routing Machine CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             background-color: #f4f6f9;
         }
         .main-sidebar {
-            background-color: #2c3e50;
+            background-color: #16a085;
         }
         .nav-link {
             color: white !important;
             font-size: 16px;
         }
         .nav-link:hover {
-            background-color: #34495e !important;
+            background-color: #c9c5c5 !important;
         }
         .nav-icon {
             margin-right: 10px;
@@ -30,12 +33,26 @@
         .content-wrapper {
             margin-left: 250px; /* Shift content to make space for the sidebar */
             padding: 20px;
+            transition: margin-left 0.3s;
         }
+        .sidebar-hidden .content-wrapper {
+            margin-left: 0;
+        }
+        .sidebar-hidden {
+    transform: translateX(-250px); /* Move the sidebar out of view */
+    transition: transform 0.3s ease-in-out;
+}
+
+.full-width {
+    margin-left: 0 !important; /* Expand content to the full width when sidebar is hidden */
+    transition: margin-left 0.3s ease-in-out;
+}
         .map-view {
-            height: 500px;
+            height: 700px;
             background-color: #e9ecef;
             border: 1px solid #ddd;
             border-radius: 8px;
+            position: relative;
         }
         .summary-card {
             background-color: #fff;
@@ -48,34 +65,26 @@
             color: #27ae60;
         }
         .map-container {
-            height: 400px;
+            height: 100%;
             width: 100%;
         }
         .brand-link {
-            background-color: #27ae60;
-            text-align: center;
+            background-color: #1abc9c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: white;
+            padding-right: 10px;
         }
         .brand-link h4 {
             margin: 0;
             padding: 10px;
         }
-        .sidebar-header {
-            padding: 10px;
-            text-align: center;
-            background-color: #27ae60;
+        .toggle-sidebar-btn {
+            background-color: transparent;
+            border: none;
             color: white;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .sidebar a {
-            display: block;
-            padding: 15px;
-            color: white;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #1abc9c;
+            cursor: pointer;
         }
         h1 {
             font-weight: bold;
@@ -89,11 +98,15 @@
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
             <!-- Brand Logo -->
-            <a href="/" class="brand-link">
+            <div class="brand-link">
                 <h4>TPA Navigator Bogor</h4>
-            </a>
+                <!-- Button to toggle sidebar -->
+                <button id="toggle-btn" class="toggle-sidebar-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
             <!-- Sidebar -->
             <div class="sidebar">
                 <nav class="mt-2">
@@ -140,7 +153,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -153,13 +165,12 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="summary-card">
-                                <h5>Bookmarks</h5>
-                                <p>List of saved locations...</p>
+                            <div class="summary-card route-instructions" id="route-instructions">
+                                <h5>Route Instructions</h5>
+                                <!-- Route instructions will appear here -->
                             </div>
                         </div>
                     </div>
-
                     <!-- Map Section -->
                     <div class="row">
                         <div class="col-12">
@@ -172,4 +183,53 @@
                 </div>
             </section>
         </div>
-        <!-- /.cont
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    
+    <!-- Leaflet Routing Machine JS -->
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        // Initialize the map
+        var map = L.map('mapid').setView([-6.597147, 106.806039], 13); // Latitude and Longitude for Bogor
+
+        // Add the tile layer from OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Add OSRM Routing
+        var control = L.Routing.control({
+            waypoints: [
+                L.latLng(-6.597147, 106.806039),  // Example starting point (Bogor)
+                L.latLng(-6.596564, 106.798424)   // Example destination point
+            ],
+            router: L.Routing.osrmv1({
+                serviceUrl: 'https://router.project-osrm.org/route/v1' // Using OSRM's public server
+            }),
+            createMarker: function() { return null; } // Remove default markers
+        }).addTo(map);
+
+        control.on('routesfound', function(e) {
+            var instructions = document.getElementById('route-instructions');
+            instructions.innerHTML = '';
+            var routes = e.routes[0].instructions;
+
+            routes.forEach(function(instruction, i) {
+                instructions.innerHTML += `<p>${i+1}. ${instruction.text}</p>`;
+            });
+        });
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var contentWrapper = document.querySelector('.content-wrapper');
+            sidebar.classList.toggle('sidebar-hidden');
+            contentWrapper.classList.toggle('full-width');
+        }
+    </script>
+</body>
+</html>
+
+   
