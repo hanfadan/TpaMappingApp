@@ -6,8 +6,6 @@
     <title>TPA Navigator Bogor Dashboard</title>
     <!-- AdminLTE and Bootstrap -->
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Leaflet Routing Machine CSS -->
@@ -19,6 +17,7 @@
         }
         .main-sidebar {
             background-color: #16a085;
+            transition: width 0.3s ease-in-out;
         }
         .nav-link {
             color: white !important;
@@ -30,23 +29,73 @@
         .nav-icon {
             margin-right: 10px;
         }
-        .content-wrapper {
-            margin-left: 250px; /* Shift content to make space for the sidebar */
-            padding: 20px;
-            transition: margin-left 0.3s;
-        }
-        .sidebar-hidden .content-wrapper {
-            margin-left: 0;
-        }
-        .sidebar-hidden {
-    transform: translateX(-250px); /* Move the sidebar out of view */
-    transition: transform 0.3s ease-in-out;
+        /* Update for content wrapper */
+/* Saat sidebar expanded */
+/* Override CSS bawaan dengan !important */
+.content-wrapper {
+    margin-left: 250px !important;
+    width: calc(100% - 250px) !important;
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-.full-width {
-    margin-left: 0 !important; /* Expand content to the full width when sidebar is hidden */
-    transition: margin-left 0.3s ease-in-out;
+.content-wrapper.content-collapsed {
+    margin-left: 60px !important;
+    width: calc(100% - 60px) !important;
 }
+@media (min-width: 768px) {
+    .content-wrapper {
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+    
+    .content-wrapper.content-collapsed {
+        margin-left: 60px !important;
+        width: calc(100% - 60px) !important;
+    }
+}
+
+
+        .sidebar-collapsed {
+            width: 60px !important;
+            overflow-x: hidden;
+        }
+        .sidebar-collapsed .nav-link p {
+            display: none;
+        }
+        .sidebar-collapsed .nav-icon {
+            margin-right: 0;
+            display: flex;
+            justify-content: center;
+        }
+        .brand-link {
+            background-color: #1abc9c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 10px;
+        }
+        .brand-link h4 {
+            margin: 0;
+            padding: 10px;
+            color: white;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .sidebar-collapsed .brand-link h4 {
+            opacity: 0;
+        }
+        .toggle-sidebar-btn {
+            position: absolute;
+            top: 20px;
+            right: 10px; /* Adjust the position */
+            background-color: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: right 0.3s ease-in-out;
+        }
+        .sidebar-collapsed .toggle-sidebar-btn {
+            right: 10px;
+        }
         .map-view {
             height: 700px;
             background-color: #e9ecef;
@@ -61,38 +110,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        .sidebar-header h4 {
-            color: #27ae60;
-        }
-        .map-container {
-            height: 100%;
-            width: 100%;
-        }
-        .brand-link {
-            background-color: #1abc9c;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-            padding-right: 10px;
-        }
-        .brand-link h4 {
-            margin: 0;
-            padding: 10px;
-        }
-        .toggle-sidebar-btn {
-            background-color: transparent;
-            border: none;
-            color: white;
-            cursor: pointer;
-        }
-        h1 {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        h5 {
-            color: #34495e;
-        }
     </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -100,9 +117,8 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidebar">
             <!-- Brand Logo -->
-            <div class="brand-link">
+            <div class="brand-link d-flex justify-content-between align-items-center">
                 <h4>TPA Navigator Bogor</h4>
-                <!-- Button to toggle sidebar -->
                 <button id="toggle-btn" class="toggle-sidebar-btn" onclick="toggleSidebar()">
                     <i class="fas fa-bars"></i>
                 </button>
@@ -138,11 +154,10 @@
                     </ul>
                 </nav>
             </div>
-            <!-- /.sidebar -->
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" id="content-wrapper">
             <!-- Content Header (Page header) -->
             <div class="content-header">
                 <div class="container-fluid">
@@ -184,16 +199,30 @@
             </section>
         </div>
     </div>
-
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    
     <!-- Leaflet Routing Machine JS -->
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 
     <script>
+function toggleSidebar() {
+    var sidebar = document.getElementById('sidebar');
+    var contentWrapper = document.querySelector('.content-wrapper');
+    var toggleBtn = document.getElementById('toggle-btn');
+    
+    // Toggle kelas untuk collapsed/expanded
+    sidebar.classList.toggle('sidebar-collapsed');
+    contentWrapper.classList.toggle('content-collapsed');
+    
+    // Ganti ikon pada tombol   
+    if (sidebar.classList.contains('sidebar-collapsed')) {
+        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>'; // Ikon collapsed
+    } else {
+        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>'; // Ikon expanded
+    }
+}
         // Initialize the map
-        var map = L.map('mapid').setView([-6.597147, 106.806039], 13); // Latitude and Longitude for Bogor
+        var map = L.map('mapid').setView([-6.597147, 106.806039], 13);
 
         // Add the tile layer from OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -204,13 +233,13 @@
         // Add OSRM Routing
         var control = L.Routing.control({
             waypoints: [
-                L.latLng(-6.597147, 106.806039),  // Example starting point (Bogor)
-                L.latLng(-6.596564, 106.798424)   // Example destination point
+                L.latLng(-6.597147, 106.806039),
+                L.latLng(-6.596564, 106.798424)
             ],
             router: L.Routing.osrmv1({
-                serviceUrl: 'https://router.project-osrm.org/route/v1' // Using OSRM's public server
+                serviceUrl: 'https://router.project-osrm.org/route/v1'
             }),
-            createMarker: function() { return null; } // Remove default markers
+            createMarker: function() { return null; }
         }).addTo(map);
 
         control.on('routesfound', function(e) {
@@ -219,17 +248,10 @@
             var routes = e.routes[0].instructions;
 
             routes.forEach(function(instruction, i) {
-                instructions.innerHTML += `<p>${i+1}. ${instruction.text}</p>`;
-            });
-        });
-        function toggleSidebar() {
-            var sidebar = document.getElementById('sidebar');
-            var contentWrapper = document.querySelector('.content-wrapper');
-            sidebar.classList.toggle('sidebar-hidden');
-            contentWrapper.classList.toggle('full-width');
-        }
-    </script>
+    instructions.innerHTML += `<p>${i+1}. ${instruction.text}</p>`;
+});
+});
+
+        </script>
 </body>
 </html>
-
-   
