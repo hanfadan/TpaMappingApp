@@ -64,3 +64,13 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# How To
+1.php artisan migrate
+2.php artisan tinker
+3.\App\Models\User::create([
+    'name' => 'Admin',
+    'email' => 'admin@example.com',
+    'password' => bcrypt('password123')  // Gunakan bcrypt untuk mengenkripsi password
+]);
+4.php artisan serve

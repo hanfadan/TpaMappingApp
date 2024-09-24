@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - TPA Mapping Bogor</title>
+    <title>Login - TPS Mapping Bogor</title>
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -93,8 +93,8 @@
 <div class="content-wrapper">
     <div class="title-section">
         <div class="login-logo">
-            <a href="{{ url('/') }}">TPA Navigator Bogor</a>
-            <p>Aplikasi GIS untuk mencari TPA terdekat di Kota Bogor</p>
+            <a href="{{ url('/') }}">TPS Navigator Bogor</a>
+            <p>Aplikasi GIS untuk mencari TPS terdekat di Kota Bogor</p>
         </div>
     </div>
     <div class="login-section">
@@ -126,20 +126,20 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-8">
+                <!-- <div class="col-8">
                     <div class="icheck-primary">
                         <input type="checkbox" id="remember">
                         <label for="remember">Remember me</label>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-4">
                     <button type="submit" class="btn btn-primary">Sign In</button>
                 </div>
             </div>
-            <div class="social-auth-links text-center mt-3">
+            <!-- <div class="social-auth-links text-center mt-3">
                 <a href="#" class="btn btn-success">Sign up</a>
                 <a href="{{ route('password.request') }}" class="d-block mt-2">Forgot password?</a>
-            </div>
+            </div> -->
         </form>
     </div>
 </div>
