@@ -16,7 +16,7 @@ Then please create a fiddle ([jsfiddle](http://jsfiddle.net/SSJJT/)) recreating 
 
 Remember to add all the info that can be useful such as
 
-* error details
-* steps to reproduce
-* browser and its version
-* any suggestion of what do you think the problem could be
+- error details
+- steps to reproduce
+- browser and its version
+- any suggestion of what do you think the problem could be

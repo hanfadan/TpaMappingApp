@@ -14,9 +14,6 @@
     <!-- Leaflet Control Geocoder CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
     <style>
         body {
             background-color: #f4f6f9;
@@ -36,104 +33,55 @@
             margin-right: 10px;
         }
         .content-wrapper {
-            margin-left: 250px !important;
-            width: calc(100% - 250px) !important;
+            margin-left: 250px;
+            width: calc(100% - 250px);
             transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
         }
 
-        .content-wrapper.content-collapsed {
-            margin-left: 60px !important;
-            width: calc(100% - 60px) !important;
+        /* Responsive layout for mobile */
+        @media (max-width: 768px) {
+    .search-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .search-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .search-btn,
+    .gps-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .map-view {
+        height: 300px;
+    }
+}
+
+        @media (max-width: 576px) {
+            .content-wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+            .main-sidebar {
+                display: none;
+            }
+            .toggle-sidebar-btn {
+                display: block;
+                top: 10px;
+                right: 10px;
+            }
+            .map-view {
+                height: 250px;
+            }
         }
 
-        .sidebar-collapsed {
-            width: 60px !important;
-            overflow-x: hidden;
-        }
-        .sidebar-collapsed .nav-link p {
-            display: none;
-        }
-        .sidebar-collapsed .nav-icon {
-            margin-right: 0;
-            display: flex;
-            justify-content: center;
-        }
-        .brand-link {
-            background-color: #1abc9c;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-right: 10px;
-        }
-        .brand-link h4 {
-            margin: 0;
-            padding: 10px;
-            color: white;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .sidebar-collapsed .brand-link h4 {
-            opacity: 0;
-        }
-        .toggle-sidebar-btn {
-            position: absolute;
-            top: 20px;
-            right: 10px;
-            background-color: transparent;
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: right 0.3s ease-in-out;
-        }
         .map-view {
             height: 700px;
             background-color: #e9ecef;
             border: 1px solid #ddd;
             border-radius: 8px;
             position: relative;
-        }
-        .summary-card {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .custom-tooltip {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        .custom-tooltip .route-title {
-            font-weight: bold;
-            font-size: 18px;
-            color: #f57c00;
-            margin-bottom: 5px;
-        }
-
-        .custom-tooltip .route-subtitle {
-            color: #555;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        .custom-tooltip .route-step {
-            padding: 5px 0;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .custom-tooltip .step-icon {
-            margin-right: 10px;
-        }
-
-        .custom-tooltip .step-text {
-            flex: 1;
         }
 
         .route-instructions-panel {
@@ -143,65 +91,59 @@
             background-color: white;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2); /* Perbesar bayangan */
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
             width: 300px;
-            z-index: 2000; /* Tingkatkan z-index */
+            z-index: 2000;
             font-family: Arial, sans-serif;
             font-size: 14px;
             line-height: 1.6;
-            max-height: 400px; /* Batasi tinggi panel */
-            overflow-y: auto; /* Tambahkan scroll jika konten terlalu panjang */
-            background: white;
+            max-height: 200px;
+            overflow-y: auto;
         }
-
-        .input-container {
-            margin: 10px 0;
-        }
-
-        .input-container label {
+        /* Gaya untuk tombol */
+        .search-btn {
+            background-color: #16a085;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
             margin-right: 10px;
         }
-
-        .input-container input {
-            width: calc(100% - 150px);
+        .gps-btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-
-        .leaflet-routing-container {
-    display: none !important;
-}
-
-/* Tambahkan gaya tombol */
-.search-btn {
-    background-color: #16a085;
-    color: white;
-    padding: 10px 20px;
+        .search-btn:hover {
+            background-color: #138f75;
+        }
+        .leaflet-top leaflet-right {
+            display: none !important;
+        }
+        .leaflet-right {
+            display: none !important;
+        }
+        .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background-color: transparent;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    color: #333;
 }
-
-.search-btn:hover {
-    background-color: #138f75;
+.close-btn:hover {
+    color: #f00; /* Warna merah saat hover */
 }
-
-/* Gaya untuk input search */
-.search-input {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    width: calc(100% - 150px);
-    margin-right: 10px;
-}
-
-.search-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
 
     </style>
 </head>
@@ -247,8 +189,8 @@
             </div>
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" id="content-wrapper">
+        <!-- Content Wrapper -->
+        <div class="content-wrapper">
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
@@ -262,40 +204,40 @@
             <!-- Input for coordinates and search -->
             <div class="container-fluid">
                 <div class="row input-container">
-                <div class="search-container">
-    <input type="text" id="search-location" class="search-input" placeholder="Masukkan Koordinat Lokasi Awal">
-    <button class="search-btn" onclick="searchLocation(); findNearestTPS();">Cari Terdekat</button>
-</div>
-
-
+                    <div class="search-container">
+                        <input type="text" id="search-location" class="search-input" placeholder="Masukkan Koordinat Lokasi Awal">
+                        <button class="search-btn" onclick="searchLocation(); findNearestTPS();">Cari Terdekat</button>
+                        <button class="gps-btn" onclick="getLocation()">Ambil Lokasi</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Map and Instructions Panel -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="map-view">
-                                <h5>Map View</h5>
-                                <div id="mapid" style="height: 100%;"></div>
-                                <div id="route-instructions-panel" class="route-instructions-panel"></div>
-                            </div>
-                        </div>
+<!-- Map and Instructions Panel -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="map-view">
+                    <div id="mapid" style="height: 100%;"></div>
+                    <div id="route-instructions-panel" class="route-instructions-panel" style="display: none;">
+    <button class="close-btn" onclick="hideInstructions()">×</button> <!-- Tombol tutup -->
+</div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
+</section>
+        </div>
+    </div>
+    </body>
+</html>
     <!-- Load Leaflet JS first -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
 <!-- Load Leaflet Routing Machine JS -->
 <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-
 <!-- Load Leaflet Control Geocoder JS -->
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
 <!-- Script for map and routing functionality -->
 <script>
     function toggleSidebar() {
@@ -316,10 +258,8 @@
             map.invalidateSize();
         }, 400);
     }
-
     // Initialize the map
     var map = L.map('mapid').setView([-6.597147, 106.806039], 13);
-
     // Add the tile layer from OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18,
@@ -328,7 +268,10 @@
 
     // Add Geocoder search control
     L.Control.geocoder().addTo(map);
-
+// // Hapus geocoder control jika ada
+if (map.geocoderControl) {
+    map.removeControl(map.geocoderControl);
+}
 // Add Routing control without draggable waypoints
 var control = L.Routing.control({
     waypoints: [], // Tidak ada waypoints saat halaman pertama kali dimuat
@@ -341,22 +284,25 @@ var control = L.Routing.control({
 }).addTo(map);
 
 map.on('click', function(e) {
-    // Tidak melakukan apapun saat peta diklik, mencegah penambahan waypoint
 });
+function hideInstructions() {
+    var instructionsPanel = document.getElementById('route-instructions-panel');
+    instructionsPanel.style.display = 'none'; // Sembunyikan panel
+}
 
-document.getElementById('route-instructions-panel').style.display = 'none';
-
-
-    // Handle the "routesfound" event to display route instructions
-    control.on('routesfound', function(e) {
+// Function to show instructions panel after route is found
+control.on('routesfound', function(e) {
     var instructionsPanel = document.getElementById('route-instructions-panel');
     
     // Jika rute ditemukan, tampilkan panel instruksi
     instructionsPanel.style.display = 'block';
-    instructionsPanel.innerHTML = ''; // Bersihkan instruksi lama
+    instructionsPanel.innerHTML = '<button class="close-btn" onclick="hideInstructions()">×</button>'; // Bersihkan instruksi lama dan tambahkan tombol "Tutup"
+    instructionsPanel.innerHTML += createTooltipContent(e.routes); // Tambahkan instruksi rute
     
-    // Call the function to display route instructions
-    instructionsPanel.innerHTML = createTooltipContent(e.routes);
+    // Adjust the map zoom to fit the route
+    var coordinates = e.routes[0].coordinates;
+    var bounds = L.latLngBounds(coordinates);
+    map.fitBounds(bounds); // Setel zoom berdasarkan batas koordinat
 });
 
     // Handle "waypointschanged" to update the route in real-time
@@ -364,13 +310,8 @@ document.getElementById('route-instructions-panel').style.display = 'none';
         control.route(); // Recalculate route after waypoints change
     });
     // Handle event untuk menyembunyikan panel instruksi jika tidak ada rute
-control.on('routeselected', function(e) {
+    control.on('routeselected', function(e) {
     var instructionsPanel = document.getElementById('route-instructions-panel');
-    
-    if (!e.routes.length) {
-        // Jika tidak ada rute, sembunyikan panel
-        instructionsPanel.style.display = 'none';
-    }
 });
 
     // Set waypoints based on user input
@@ -494,6 +435,38 @@ tpsData.forEach(tps => {
 
 // Inisialisasi geocoder
 var geocoder = L.Control.Geocoder.nominatim();
+        // Function to get user's location
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            document.getElementById("search-location").value = lat + ", " + lon;
+            findNearestTPS(lat, lon);  // You can call the findNearestTPS function with the coordinates
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
 
 // Fungsi untuk mencari lokasi
 function searchLocation() {
@@ -558,10 +531,7 @@ function findNearestTPS(startLat, startLng) {
             .openPopup();
     } else {
         alert('Tidak ada TPS dalam radius terdekat.');
-        // Sembunyikan panel instruksi karena tidak ada rute
         document.getElementById('route-instructions-panel').style.display = 'none';
     }
 }
 </script>
-</body>
-</html>

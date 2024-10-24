@@ -6,4 +6,7 @@ import FilterItem from '../FilterItem';
  * @param {Array} arr2 the second array of FilterItems
  * @return {Boolean} equality
  */
-export declare const filterItemArraysHaveSameSorting: (filterItemsA: FilterItem[], filterItemsB: FilterItem[]) => boolean;
+export declare const filterItemArraysHaveSameSorting: (
+  filterItemsA: FilterItem[],
+  filterItemsB: FilterItem[]
+) => boolean;

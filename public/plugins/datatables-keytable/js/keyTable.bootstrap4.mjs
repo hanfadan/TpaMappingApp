@@ -9,6 +9,4 @@ import KeyTable from 'datatables.net-keytable';
 // Allow reassignment of the $ variable
 let $ = jQuery;
 
-
-
 export default DataTable;

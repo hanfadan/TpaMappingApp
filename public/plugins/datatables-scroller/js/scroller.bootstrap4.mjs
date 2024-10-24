@@ -9,6 +9,4 @@ import Scroller from 'datatables.net-scroller';
 // Allow reassignment of the $ variable
 let $ = jQuery;
 
-
-
 export default DataTable;

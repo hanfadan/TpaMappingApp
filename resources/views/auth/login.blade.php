@@ -13,16 +13,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100vh;
-        width: 85%;
+        min-height: 100vh;
+        width: 100%;
         margin: 0;
         color: #333;
     }
     .content-wrapper {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        width: 80%;
+        justify-content: center;
+        width: 90%;
         max-width: 1000px;
         padding: 20px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -30,14 +31,12 @@
         border-radius: 12px;
     }
     .title-section {
-        width: 45%;
-        padding-right: 20px;
-        color: #2c3e50;
-        text-align: left;
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
     }
     .login-section {
-        width: 45%;
-        padding-left: 20px;
+        width: 100%;
     }
     .login-logo a {
         color: #27ae60;
@@ -61,7 +60,7 @@
         border: 1px solid #bdc3c7;
     }
     .btn-primary {
-        background-color: #1abc9c; /* Updated color for "Sign In" */
+        background-color: #1abc9c;
         width: 100%;
         padding: 10px;
         font-size: 16px;
@@ -69,10 +68,10 @@
         transition: background-color 0.3s ease;
     }
     .btn-primary:hover {
-        background-color: #16a085; /* Darken on hover */
+        background-color: #16a085;
     }
     .btn-success {
-        background-color: #2ecc71; /* Updated color for "Sign Up" */
+        background-color: #2ecc71;
         width: 100%;
         padding: 10px;
         font-size: 16px;
@@ -80,12 +79,57 @@
         transition: background-color 0.3s ease;
     }
     .btn-success:hover {
-        background-color: #16a085; /* Darken on hover */
+        background-color: #16a085;
     }
     .social-auth-links a {
         display: block;
         margin-top: 15px;
         font-size: 14px;
+    }
+
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+        .content-wrapper {
+            width: 95%;
+            padding: 10px;
+        }
+        .title-section {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .login-section {
+            width: 100%;
+        }
+        .login-logo a {
+            font-size: 24px;
+        }
+        .login-logo p {
+            font-size: 16px;
+        }
+        .btn-primary, .btn-success {
+            font-size: 14px;
+            padding: 8px;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        body {
+            padding: 20px;
+        }
+        .content-wrapper {
+            width: 100%;
+            padding: 10px;
+        }
+        .login-logo a {
+            font-size: 22px;
+        }
+        .login-logo p {
+            font-size: 14px;
+        }
+        .btn-primary, .btn-success {
+            font-size: 12px;
+            padding: 6px;
+        }
     }
     </style>
 </head>
@@ -126,20 +170,10 @@
                 </div>
             </div>
             <div class="row">
-                <!-- <div class="col-8">
-                    <div class="icheck-primary">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">Remember me</label>
-                    </div>
-                </div> -->
-                <div class="col-4">
+                <div class="col-12">
                     <button type="submit" class="btn btn-primary">Sign In</button>
                 </div>
             </div>
-            <!-- <div class="social-auth-links text-center mt-3">
-                <a href="#" class="btn btn-success">Sign up</a>
-                <a href="{{ route('password.request') }}" class="d-block mt-2">Forgot password?</a>
-            </div> -->
         </form>
     </div>
 </div>

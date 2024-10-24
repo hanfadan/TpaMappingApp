@@ -17,15 +17,27 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
   margin-right: 0.5em;
   display: inline-block;
   color: rgba(0, 0, 0, 0.5);
-  content: "►";
+  content: '►';
 }
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control.arrow-right::before,
-table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control.arrow-right::before {
-  content: "◄";
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr
+  > td.dtr-control.arrow-right::before,
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr
+  > th.dtr-control.arrow-right::before {
+  content: '◄';
 }
-table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control:before,
-table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th.dtr-control:before {
-  content: "▼";
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr.parent
+  > td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed
+  > tbody
+  > tr.parent
+  > th.dtr-control:before {
+  content: '▼';
 }
 table.dataTable.dtr-inline.collapsed.compact > tbody > tr > td.dtr-control,
 table.dataTable.dtr-inline.collapsed.compact > tbody > tr > th.dtr-control {
@@ -43,19 +55,19 @@ table.dataTable.dtr-column > tbody > tr > td.control:before,
 table.dataTable.dtr-column > tbody > tr > th.control:before {
   display: inline-block;
   color: rgba(0, 0, 0, 0.5);
-  content: "►";
+  content: '►';
 }
 table.dataTable.dtr-column > tbody > tr > td.dtr-control.arrow-right::before,
 table.dataTable.dtr-column > tbody > tr > th.dtr-control.arrow-right::before,
 table.dataTable.dtr-column > tbody > tr > td.control.arrow-right::before,
 table.dataTable.dtr-column > tbody > tr > th.control.arrow-right::before {
-  content: "◄";
+  content: '◄';
 }
 table.dataTable.dtr-column > tbody > tr.parent td.dtr-control:before,
 table.dataTable.dtr-column > tbody > tr.parent th.dtr-control:before,
 table.dataTable.dtr-column > tbody > tr.parent td.control:before,
 table.dataTable.dtr-column > tbody > tr.parent th.control:before {
-  content: "▼";
+  content: '▼';
 }
 table.dataTable > tbody > tr.child {
   padding: 0.5em 1em;

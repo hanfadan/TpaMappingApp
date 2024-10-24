@@ -4,10 +4,13 @@
  * Licensed under MIT (https://github.com/ColorlibHQ/AdminLTE/blob/master/LICENSE)
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.adminlte = {}));
-}(this, (function (exports) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined'
+    ? factory(exports)
+    : typeof define === 'function' && define.amd
+      ? define(['exports'], factory)
+      : ((global = global || self), factory((global.adminlte = {})));
+})(this, function (exports) {
+  'use strict';
 
   /**
    * --------------------------------------------
@@ -15,18 +18,18 @@
    * License MIT
    * --------------------------------------------
    */
-  var ControlSidebar = function ($) {
+  var ControlSidebar = (function ($) {
     /**
      * Constants
      * ====================================================
      */
     var NAME = 'ControlSidebar';
     var DATA_KEY = 'lte.controlsidebar';
-    var EVENT_KEY = "." + DATA_KEY;
+    var EVENT_KEY = '.' + DATA_KEY;
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      COLLAPSED: "collapsed" + EVENT_KEY,
-      EXPANDED: "expanded" + EVENT_KEY
+      COLLAPSED: 'collapsed' + EVENT_KEY,
+      EXPANDED: 'expanded' + EVENT_KEY,
     };
     var Selector = {
       CONTROL_SIDEBAR: '.control-sidebar',
@@ -34,7 +37,7 @@
       DATA_TOGGLE: '[data-widget="control-sidebar"]',
       CONTENT: '.content-wrapper',
       HEADER: '.main-header',
-      FOOTER: '.main-footer'
+      FOOTER: '.main-footer',
     };
     var ClassName = {
       CONTROL_SIDEBAR_ANIMATE: 'control-sidebar-animate',
@@ -50,19 +53,19 @@
       FOOTER_SM_FIXED: 'layout-sm-footer-fixed',
       FOOTER_MD_FIXED: 'layout-md-footer-fixed',
       FOOTER_LG_FIXED: 'layout-lg-footer-fixed',
-      FOOTER_XL_FIXED: 'layout-xl-footer-fixed'
+      FOOTER_XL_FIXED: 'layout-xl-footer-fixed',
     };
     var Default = {
       controlsidebarSlide: true,
       scrollbarTheme: 'os-theme-light',
-      scrollbarAutoHide: 'l'
+      scrollbarAutoHide: 'l',
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var ControlSidebar = /*#__PURE__*/function () {
+    var ControlSidebar = /*#__PURE__*/ (function () {
       function ControlSidebar(element, config) {
         this._element = element;
         this._config = config;
@@ -70,18 +73,20 @@
         this._init();
       } // Public
 
-
       var _proto = ControlSidebar.prototype;
 
       _proto.collapse = function collapse() {
         // Show the control sidebar
         if (this._config.controlsidebarSlide) {
           $('html').addClass(ClassName.CONTROL_SIDEBAR_ANIMATE);
-          $('body').removeClass(ClassName.CONTROL_SIDEBAR_SLIDE).delay(300).queue(function () {
-            $(Selector.CONTROL_SIDEBAR).hide();
-            $('html').removeClass(ClassName.CONTROL_SIDEBAR_ANIMATE);
-            $(this).dequeue();
-          });
+          $('body')
+            .removeClass(ClassName.CONTROL_SIDEBAR_SLIDE)
+            .delay(300)
+            .queue(function () {
+              $(Selector.CONTROL_SIDEBAR).hide();
+              $('html').removeClass(ClassName.CONTROL_SIDEBAR_ANIMATE);
+              $(this).dequeue();
+            });
         } else {
           $('body').removeClass(ClassName.CONTROL_SIDEBAR_OPEN);
         }
@@ -94,13 +99,19 @@
         // Collapse the control sidebar
         if (this._config.controlsidebarSlide) {
           $('html').addClass(ClassName.CONTROL_SIDEBAR_ANIMATE);
-          $(Selector.CONTROL_SIDEBAR).show().delay(10).queue(function () {
-            $('body').addClass(ClassName.CONTROL_SIDEBAR_SLIDE).delay(300).queue(function () {
-              $('html').removeClass(ClassName.CONTROL_SIDEBAR_ANIMATE);
+          $(Selector.CONTROL_SIDEBAR)
+            .show()
+            .delay(10)
+            .queue(function () {
+              $('body')
+                .addClass(ClassName.CONTROL_SIDEBAR_SLIDE)
+                .delay(300)
+                .queue(function () {
+                  $('html').removeClass(ClassName.CONTROL_SIDEBAR_ANIMATE);
+                  $(this).dequeue();
+                });
               $(this).dequeue();
             });
-            $(this).dequeue();
-          });
         } else {
           $('body').addClass(ClassName.CONTROL_SIDEBAR_OPEN);
         }
@@ -110,7 +121,9 @@
       };
 
       _proto.toggle = function toggle() {
-        var shouldClose = $('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) || $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE);
+        var shouldClose =
+          $('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) ||
+          $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE);
 
         if (shouldClose) {
           // Close the control sidebar
@@ -119,8 +132,7 @@
           // Open the control sidebar
           this.show();
         }
-      } // Private
-      ;
+      }; // Private
 
       _proto._init = function _init() {
         var _this = this;
@@ -135,7 +147,10 @@
           _this._fixScrollHeight();
         });
         $(window).scroll(function () {
-          if ($('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) || $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE)) {
+          if (
+            $('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) ||
+            $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE)
+          ) {
             _this._fixScrollHeight();
           }
         });
@@ -146,24 +161,38 @@
           scroll: $(document).height(),
           window: $(window).height(),
           header: $(Selector.HEADER).outerHeight(),
-          footer: $(Selector.FOOTER).outerHeight()
+          footer: $(Selector.FOOTER).outerHeight(),
         };
         var positions = {
-          bottom: Math.abs(heights.window + $(window).scrollTop() - heights.scroll),
-          top: $(window).scrollTop()
+          bottom: Math.abs(
+            heights.window + $(window).scrollTop() - heights.scroll
+          ),
+          top: $(window).scrollTop(),
         };
         var navbarFixed = false;
         var footerFixed = false;
 
         if ($('body').hasClass(ClassName.LAYOUT_FIXED)) {
-          if ($('body').hasClass(ClassName.NAVBAR_FIXED) || $('body').hasClass(ClassName.NAVBAR_SM_FIXED) || $('body').hasClass(ClassName.NAVBAR_MD_FIXED) || $('body').hasClass(ClassName.NAVBAR_LG_FIXED) || $('body').hasClass(ClassName.NAVBAR_XL_FIXED)) {
-            if ($(Selector.HEADER).css("position") === "fixed") {
+          if (
+            $('body').hasClass(ClassName.NAVBAR_FIXED) ||
+            $('body').hasClass(ClassName.NAVBAR_SM_FIXED) ||
+            $('body').hasClass(ClassName.NAVBAR_MD_FIXED) ||
+            $('body').hasClass(ClassName.NAVBAR_LG_FIXED) ||
+            $('body').hasClass(ClassName.NAVBAR_XL_FIXED)
+          ) {
+            if ($(Selector.HEADER).css('position') === 'fixed') {
               navbarFixed = true;
             }
           }
 
-          if ($('body').hasClass(ClassName.FOOTER_FIXED) || $('body').hasClass(ClassName.FOOTER_SM_FIXED) || $('body').hasClass(ClassName.FOOTER_MD_FIXED) || $('body').hasClass(ClassName.FOOTER_LG_FIXED) || $('body').hasClass(ClassName.FOOTER_XL_FIXED)) {
-            if ($(Selector.FOOTER).css("position") === "fixed") {
+          if (
+            $('body').hasClass(ClassName.FOOTER_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_SM_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_MD_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_LG_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_XL_FIXED)
+          ) {
+            if ($(Selector.FOOTER).css('position') === 'fixed') {
               footerFixed = true;
             }
           }
@@ -171,25 +200,61 @@
           if (positions.top === 0 && positions.bottom === 0) {
             $(Selector.CONTROL_SIDEBAR).css('bottom', heights.footer);
             $(Selector.CONTROL_SIDEBAR).css('top', heights.header);
-            $(Selector.CONTROL_SIDEBAR + ', ' + Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT).css('height', heights.window - (heights.header + heights.footer));
+            $(
+              Selector.CONTROL_SIDEBAR +
+                ', ' +
+                Selector.CONTROL_SIDEBAR +
+                ' ' +
+                Selector.CONTROL_SIDEBAR_CONTENT
+            ).css('height', heights.window - (heights.header + heights.footer));
           } else if (positions.bottom <= heights.footer) {
             if (footerFixed === false) {
-              $(Selector.CONTROL_SIDEBAR).css('bottom', heights.footer - positions.bottom);
-              $(Selector.CONTROL_SIDEBAR + ', ' + Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT).css('height', heights.window - (heights.footer - positions.bottom));
+              $(Selector.CONTROL_SIDEBAR).css(
+                'bottom',
+                heights.footer - positions.bottom
+              );
+              $(
+                Selector.CONTROL_SIDEBAR +
+                  ', ' +
+                  Selector.CONTROL_SIDEBAR +
+                  ' ' +
+                  Selector.CONTROL_SIDEBAR_CONTENT
+              ).css(
+                'height',
+                heights.window - (heights.footer - positions.bottom)
+              );
             } else {
               $(Selector.CONTROL_SIDEBAR).css('bottom', heights.footer);
             }
           } else if (positions.top <= heights.header) {
             if (navbarFixed === false) {
-              $(Selector.CONTROL_SIDEBAR).css('top', heights.header - positions.top);
-              $(Selector.CONTROL_SIDEBAR + ', ' + Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT).css('height', heights.window - (heights.header - positions.top));
+              $(Selector.CONTROL_SIDEBAR).css(
+                'top',
+                heights.header - positions.top
+              );
+              $(
+                Selector.CONTROL_SIDEBAR +
+                  ', ' +
+                  Selector.CONTROL_SIDEBAR +
+                  ' ' +
+                  Selector.CONTROL_SIDEBAR_CONTENT
+              ).css(
+                'height',
+                heights.window - (heights.header - positions.top)
+              );
             } else {
               $(Selector.CONTROL_SIDEBAR).css('top', heights.header);
             }
           } else {
             if (navbarFixed === false) {
               $(Selector.CONTROL_SIDEBAR).css('top', 0);
-              $(Selector.CONTROL_SIDEBAR + ', ' + Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT).css('height', heights.window);
+              $(
+                Selector.CONTROL_SIDEBAR +
+                  ', ' +
+                  Selector.CONTROL_SIDEBAR +
+                  ' ' +
+                  Selector.CONTROL_SIDEBAR_CONTENT
+              ).css('height', heights.window);
             } else {
               $(Selector.CONTROL_SIDEBAR).css('top', heights.header);
             }
@@ -201,33 +266,42 @@
         var heights = {
           window: $(window).height(),
           header: $(Selector.HEADER).outerHeight(),
-          footer: $(Selector.FOOTER).outerHeight()
+          footer: $(Selector.FOOTER).outerHeight(),
         };
 
         if ($('body').hasClass(ClassName.LAYOUT_FIXED)) {
           var sidebarHeight = heights.window - heights.header;
 
-          if ($('body').hasClass(ClassName.FOOTER_FIXED) || $('body').hasClass(ClassName.FOOTER_SM_FIXED) || $('body').hasClass(ClassName.FOOTER_MD_FIXED) || $('body').hasClass(ClassName.FOOTER_LG_FIXED) || $('body').hasClass(ClassName.FOOTER_XL_FIXED)) {
-            if ($(Selector.FOOTER).css("position") === "fixed") {
+          if (
+            $('body').hasClass(ClassName.FOOTER_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_SM_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_MD_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_LG_FIXED) ||
+            $('body').hasClass(ClassName.FOOTER_XL_FIXED)
+          ) {
+            if ($(Selector.FOOTER).css('position') === 'fixed') {
               sidebarHeight = heights.window - heights.header - heights.footer;
             }
           }
 
-          $(Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT).css('height', sidebarHeight);
+          $(
+            Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT
+          ).css('height', sidebarHeight);
 
           if (typeof $.fn.overlayScrollbars !== 'undefined') {
-            $(Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT).overlayScrollbars({
+            $(
+              Selector.CONTROL_SIDEBAR + ' ' + Selector.CONTROL_SIDEBAR_CONTENT
+            ).overlayScrollbars({
               className: this._config.scrollbarTheme,
               sizeAutoCapable: true,
               scrollbars: {
                 autoHide: this._config.scrollbarAutoHide,
-                clickScrolling: true
-              }
+                clickScrolling: true,
+              },
             });
           }
         }
-      } // Static
-      ;
+      }; // Static
 
       ControlSidebar._jQueryInterface = function _jQueryInterface(operation) {
         return this.each(function () {
@@ -241,7 +315,7 @@
           }
 
           if (data[operation] === 'undefined') {
-            throw new Error(operation + " is not a function");
+            throw new Error(operation + ' is not a function');
           }
 
           data[operation]();
@@ -249,13 +323,12 @@
       };
 
       return ControlSidebar;
-    }();
+    })();
     /**
      *
      * Data Api implementation
      * ====================================================
      */
-
 
     $(document).on('click', Selector.DATA_TOGGLE, function (event) {
       event.preventDefault();
@@ -276,7 +349,7 @@
     };
 
     return ControlSidebar;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -284,7 +357,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var Layout = function ($) {
+  var Layout = (function ($) {
     /**
      * Constants
      * ====================================================
@@ -307,7 +380,7 @@
       FOOTER: '.main-footer',
       PUSHMENU_BTN: '[data-widget="pushmenu"]',
       LOGIN_BOX: '.login-box',
-      REGISTER_BOX: '.register-box'
+      REGISTER_BOX: '.register-box',
     };
     var ClassName = {
       HOLD: 'hold-transition',
@@ -320,27 +393,26 @@
       LOGIN_PAGE: 'login-page',
       REGISTER_PAGE: 'register-page',
       CONTROL_SIDEBAR_SLIDE_OPEN: 'control-sidebar-slide-open',
-      CONTROL_SIDEBAR_OPEN: 'control-sidebar-open'
+      CONTROL_SIDEBAR_OPEN: 'control-sidebar-open',
     };
     var Default = {
       scrollbarTheme: 'os-theme-light',
       scrollbarAutoHide: 'l',
       panelAutoHeight: true,
-      loginRegisterAutoHeight: true
+      loginRegisterAutoHeight: true,
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var Layout = /*#__PURE__*/function () {
+    var Layout = /*#__PURE__*/ (function () {
       function Layout(element, config) {
         this._config = config;
         this._element = element;
 
         this._init();
       } // Public
-
 
       var _proto = Layout.prototype;
 
@@ -351,16 +423,27 @@
 
         var control_sidebar = 0;
 
-        if ($('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE_OPEN) || $('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) || extra == 'control_sidebar') {
+        if (
+          $('body').hasClass(ClassName.CONTROL_SIDEBAR_SLIDE_OPEN) ||
+          $('body').hasClass(ClassName.CONTROL_SIDEBAR_OPEN) ||
+          extra == 'control_sidebar'
+        ) {
           control_sidebar = $(Selector.CONTROL_SIDEBAR_CONTENT).height();
         }
 
         var heights = {
           window: $(window).height(),
-          header: $(Selector.HEADER).length !== 0 ? $(Selector.HEADER).outerHeight() : 0,
-          footer: $(Selector.FOOTER).length !== 0 ? $(Selector.FOOTER).outerHeight() : 0,
-          sidebar: $(Selector.SIDEBAR).length !== 0 ? $(Selector.SIDEBAR).height() : 0,
-          control_sidebar: control_sidebar
+          header:
+            $(Selector.HEADER).length !== 0
+              ? $(Selector.HEADER).outerHeight()
+              : 0,
+          footer:
+            $(Selector.FOOTER).length !== 0
+              ? $(Selector.FOOTER).outerHeight()
+              : 0,
+          sidebar:
+            $(Selector.SIDEBAR).length !== 0 ? $(Selector.SIDEBAR).height() : 0,
+          control_sidebar: control_sidebar,
         };
 
         var max = this._max(heights);
@@ -375,19 +458,31 @@
           if (max == heights.control_sidebar) {
             $(Selector.CONTENT).css('min-height', max + offset);
           } else if (max == heights.window) {
-            $(Selector.CONTENT).css('min-height', max + offset - heights.header - heights.footer);
+            $(Selector.CONTENT).css(
+              'min-height',
+              max + offset - heights.header - heights.footer
+            );
           } else {
-            $(Selector.CONTENT).css('min-height', max + offset - heights.header);
+            $(Selector.CONTENT).css(
+              'min-height',
+              max + offset - heights.header
+            );
           }
 
           if (this._isFooterFixed()) {
-            $(Selector.CONTENT).css('min-height', parseFloat($(Selector.CONTENT).css('min-height')) + heights.footer);
+            $(Selector.CONTENT).css(
+              'min-height',
+              parseFloat($(Selector.CONTENT).css('min-height')) + heights.footer
+            );
           }
         }
 
         if ($('body').hasClass(ClassName.LAYOUT_FIXED)) {
           if (offset !== false) {
-            $(Selector.CONTENT).css('min-height', max + offset - heights.header - heights.footer);
+            $(Selector.CONTENT).css(
+              'min-height',
+              max + offset - heights.header - heights.footer
+            );
           }
 
           if (typeof $.fn.overlayScrollbars !== 'undefined') {
@@ -396,8 +491,8 @@
               sizeAutoCapable: true,
               scrollbars: {
                 autoHide: this._config.scrollbarAutoHide,
-                clickScrolling: true
-              }
+                clickScrolling: true,
+              },
             });
           }
         }
@@ -406,15 +501,18 @@
       _proto.fixLoginRegisterHeight = function fixLoginRegisterHeight() {
         if ($(Selector.LOGIN_BOX + ', ' + Selector.REGISTER_BOX).length === 0) {
           $('body, html').css('height', 'auto');
-        } else if ($(Selector.LOGIN_BOX + ', ' + Selector.REGISTER_BOX).length !== 0) {
-          var box_height = $(Selector.LOGIN_BOX + ', ' + Selector.REGISTER_BOX).height();
+        } else if (
+          $(Selector.LOGIN_BOX + ', ' + Selector.REGISTER_BOX).length !== 0
+        ) {
+          var box_height = $(
+            Selector.LOGIN_BOX + ', ' + Selector.REGISTER_BOX
+          ).height();
 
           if ($('body').css('min-height') !== box_height) {
             $('body').css('min-height', box_height);
           }
         }
-      } // Private
-      ;
+      }; // Private
 
       _proto._init = function _init() {
         var _this = this;
@@ -425,20 +523,31 @@
         if (this._config.loginRegisterAutoHeight === true) {
           this.fixLoginRegisterHeight();
         } else if (Number.isInteger(this._config.loginRegisterAutoHeight)) {
-          setInterval(this.fixLoginRegisterHeight, this._config.loginRegisterAutoHeight);
+          setInterval(
+            this.fixLoginRegisterHeight,
+            this._config.loginRegisterAutoHeight
+          );
         }
 
-        $(Selector.SIDEBAR).on('collapsed.lte.treeview expanded.lte.treeview', function () {
-          _this.fixLayoutHeight();
-        });
-        $(Selector.PUSHMENU_BTN).on('collapsed.lte.pushmenu shown.lte.pushmenu', function () {
-          _this.fixLayoutHeight();
-        });
-        $(Selector.CONTROL_SIDEBAR_BTN).on('collapsed.lte.controlsidebar', function () {
-          _this.fixLayoutHeight();
-        }).on('expanded.lte.controlsidebar', function () {
-          _this.fixLayoutHeight('control_sidebar');
-        });
+        $(Selector.SIDEBAR).on(
+          'collapsed.lte.treeview expanded.lte.treeview',
+          function () {
+            _this.fixLayoutHeight();
+          }
+        );
+        $(Selector.PUSHMENU_BTN).on(
+          'collapsed.lte.pushmenu shown.lte.pushmenu',
+          function () {
+            _this.fixLayoutHeight();
+          }
+        );
+        $(Selector.CONTROL_SIDEBAR_BTN)
+          .on('collapsed.lte.controlsidebar', function () {
+            _this.fixLayoutHeight();
+          })
+          .on('expanded.lte.controlsidebar', function () {
+            _this.fixLayoutHeight('control_sidebar');
+          });
         $(window).resize(function () {
           _this.fixLayoutHeight();
         });
@@ -460,8 +569,7 @@
 
       _proto._isFooterFixed = function _isFooterFixed() {
         return $('.main-footer').css('position') === 'fixed';
-      } // Static
-      ;
+      }; // Static
 
       Layout._jQueryInterface = function _jQueryInterface(config) {
         if (config === void 0) {
@@ -480,19 +588,21 @@
 
           if (config === 'init' || config === '') {
             data['_init']();
-          } else if (config === 'fixLayoutHeight' || config === 'fixLoginRegisterHeight') {
+          } else if (
+            config === 'fixLayoutHeight' ||
+            config === 'fixLoginRegisterHeight'
+          ) {
             data[config]();
           }
         });
       };
 
       return Layout;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
-
 
     $(window).on('load', function () {
       Layout._jQueryInterface.call($('body'));
@@ -517,7 +627,7 @@
     };
 
     return Layout;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -525,23 +635,23 @@
    * License MIT
    * --------------------------------------------
    */
-  var PushMenu = function ($) {
+  var PushMenu = (function ($) {
     /**
      * Constants
      * ====================================================
      */
     var NAME = 'PushMenu';
     var DATA_KEY = 'lte.pushmenu';
-    var EVENT_KEY = "." + DATA_KEY;
+    var EVENT_KEY = '.' + DATA_KEY;
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      COLLAPSED: "collapsed" + EVENT_KEY,
-      SHOWN: "shown" + EVENT_KEY
+      COLLAPSED: 'collapsed' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
     };
     var Default = {
       autoCollapseSize: 992,
       enableRemember: false,
-      noTransitionAfterReload: true
+      noTransitionAfterReload: true,
     };
     var Selector = {
       TOGGLE_BUTTON: '[data-widget="pushmenu"]',
@@ -549,19 +659,19 @@
       SIDEBAR_COLLAPSED: '.sidebar-collapse',
       BODY: 'body',
       OVERLAY: '#sidebar-overlay',
-      WRAPPER: '.wrapper'
+      WRAPPER: '.wrapper',
     };
     var ClassName = {
       COLLAPSED: 'sidebar-collapse',
       OPEN: 'sidebar-open',
-      CLOSED: 'sidebar-closed'
+      CLOSED: 'sidebar-closed',
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var PushMenu = /*#__PURE__*/function () {
+    var PushMenu = /*#__PURE__*/ (function () {
       function PushMenu(element, options) {
         this._element = element;
         this._options = $.extend({}, Default, options);
@@ -573,7 +683,6 @@
         this._init();
       } // Public
 
-
       var _proto = PushMenu.prototype;
 
       _proto.expand = function expand() {
@@ -583,10 +692,12 @@
           }
         }
 
-        $(Selector.BODY).removeClass(ClassName.COLLAPSED).removeClass(ClassName.CLOSED);
+        $(Selector.BODY)
+          .removeClass(ClassName.COLLAPSED)
+          .removeClass(ClassName.CLOSED);
 
         if (this._options.enableRemember) {
-          localStorage.setItem("remember" + EVENT_KEY, ClassName.OPEN);
+          localStorage.setItem('remember' + EVENT_KEY, ClassName.OPEN);
         }
 
         var shownEvent = $.Event(Event.SHOWN);
@@ -596,14 +707,16 @@
       _proto.collapse = function collapse() {
         if (this._options.autoCollapseSize) {
           if ($(window).width() <= this._options.autoCollapseSize) {
-            $(Selector.BODY).removeClass(ClassName.OPEN).addClass(ClassName.CLOSED);
+            $(Selector.BODY)
+              .removeClass(ClassName.OPEN)
+              .addClass(ClassName.CLOSED);
           }
         }
 
         $(Selector.BODY).addClass(ClassName.COLLAPSED);
 
         if (this._options.enableRemember) {
-          localStorage.setItem("remember" + EVENT_KEY, ClassName.COLLAPSED);
+          localStorage.setItem('remember' + EVENT_KEY, ClassName.COLLAPSED);
         }
 
         var collapsedEvent = $.Event(Event.COLLAPSED);
@@ -640,30 +753,37 @@
 
       _proto.remember = function remember() {
         if (this._options.enableRemember) {
-          var toggleState = localStorage.getItem("remember" + EVENT_KEY);
+          var toggleState = localStorage.getItem('remember' + EVENT_KEY);
 
           if (toggleState == ClassName.COLLAPSED) {
             if (this._options.noTransitionAfterReload) {
-              $("body").addClass('hold-transition').addClass(ClassName.COLLAPSED).delay(50).queue(function () {
-                $(this).removeClass('hold-transition');
-                $(this).dequeue();
-              });
+              $('body')
+                .addClass('hold-transition')
+                .addClass(ClassName.COLLAPSED)
+                .delay(50)
+                .queue(function () {
+                  $(this).removeClass('hold-transition');
+                  $(this).dequeue();
+                });
             } else {
-              $("body").addClass(ClassName.COLLAPSED);
+              $('body').addClass(ClassName.COLLAPSED);
             }
           } else {
             if (this._options.noTransitionAfterReload) {
-              $("body").addClass('hold-transition').removeClass(ClassName.COLLAPSED).delay(50).queue(function () {
-                $(this).removeClass('hold-transition');
-                $(this).dequeue();
-              });
+              $('body')
+                .addClass('hold-transition')
+                .removeClass(ClassName.COLLAPSED)
+                .delay(50)
+                .queue(function () {
+                  $(this).removeClass('hold-transition');
+                  $(this).dequeue();
+                });
             } else {
-              $("body").removeClass(ClassName.COLLAPSED);
+              $('body').removeClass(ClassName.COLLAPSED);
             }
           }
         }
-      } // Private
-      ;
+      }; // Private
 
       _proto._init = function _init() {
         var _this = this;
@@ -679,14 +799,13 @@
         var _this2 = this;
 
         var overlay = $('<div />', {
-          id: 'sidebar-overlay'
+          id: 'sidebar-overlay',
         });
         overlay.on('click', function () {
           _this2.collapse();
         });
         $(Selector.WRAPPER).append(overlay);
-      } // Static
-      ;
+      }; // Static
 
       PushMenu._jQueryInterface = function _jQueryInterface(operation) {
         return this.each(function () {
@@ -699,19 +818,21 @@
             $(this).data(DATA_KEY, data);
           }
 
-          if (typeof operation === 'string' && operation.match(/collapse|expand|toggle/)) {
+          if (
+            typeof operation === 'string' &&
+            operation.match(/collapse|expand|toggle/)
+          ) {
             data[operation]();
           }
         });
       };
 
       return PushMenu;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
-
 
     $(document).on('click', Selector.TOGGLE_BUTTON, function (event) {
       event.preventDefault();
@@ -740,7 +861,7 @@
     };
 
     return PushMenu;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -748,53 +869,52 @@
    * License MIT
    * --------------------------------------------
    */
-  var Treeview = function ($) {
+  var Treeview = (function ($) {
     /**
      * Constants
      * ====================================================
      */
     var NAME = 'Treeview';
     var DATA_KEY = 'lte.treeview';
-    var EVENT_KEY = "." + DATA_KEY;
+    var EVENT_KEY = '.' + DATA_KEY;
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      SELECTED: "selected" + EVENT_KEY,
-      EXPANDED: "expanded" + EVENT_KEY,
-      COLLAPSED: "collapsed" + EVENT_KEY,
-      LOAD_DATA_API: "load" + EVENT_KEY
+      SELECTED: 'selected' + EVENT_KEY,
+      EXPANDED: 'expanded' + EVENT_KEY,
+      COLLAPSED: 'collapsed' + EVENT_KEY,
+      LOAD_DATA_API: 'load' + EVENT_KEY,
     };
     var Selector = {
       LI: '.nav-item',
       LINK: '.nav-link',
       TREEVIEW_MENU: '.nav-treeview',
       OPEN: '.menu-open',
-      DATA_WIDGET: '[data-widget="treeview"]'
+      DATA_WIDGET: '[data-widget="treeview"]',
     };
     var ClassName = {
       LI: 'nav-item',
       LINK: 'nav-link',
       TREEVIEW_MENU: 'nav-treeview',
       OPEN: 'menu-open',
-      SIDEBAR_COLLAPSED: 'sidebar-collapse'
+      SIDEBAR_COLLAPSED: 'sidebar-collapse',
     };
     var Default = {
-      trigger: Selector.DATA_WIDGET + " " + Selector.LINK,
+      trigger: Selector.DATA_WIDGET + ' ' + Selector.LINK,
       animationSpeed: 300,
       accordion: true,
       expandSidebar: false,
-      sidebarButtonSelector: '[data-widget="pushmenu"]'
+      sidebarButtonSelector: '[data-widget="pushmenu"]',
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var Treeview = /*#__PURE__*/function () {
+    var Treeview = /*#__PURE__*/ (function () {
       function Treeview(element, config) {
         this._config = config;
         this._element = element;
       } // Public
-
 
       var _proto = Treeview.prototype;
 
@@ -830,7 +950,9 @@
         treeviewMenu.stop().slideUp(this._config.animationSpeed, function () {
           parentLi.removeClass(ClassName.OPEN);
           $(_this2._element).trigger(collapsedEvent);
-          treeviewMenu.find(Selector.OPEN + " > " + Selector.TREEVIEW_MENU).slideUp();
+          treeviewMenu
+            .find(Selector.OPEN + ' > ' + Selector.TREEVIEW_MENU)
+            .slideUp();
           treeviewMenu.find(Selector.OPEN).removeClass(ClassName.OPEN);
         });
       };
@@ -859,8 +981,7 @@
         } else {
           this.expand($(treeviewMenu), parentLi);
         }
-      } // Private
-      ;
+      }; // Private
 
       _proto._setupListeners = function _setupListeners() {
         var _this3 = this;
@@ -874,8 +995,7 @@
         if ($('body').hasClass(ClassName.SIDEBAR_COLLAPSED)) {
           $(this._config.sidebarButtonSelector).PushMenu('expand');
         }
-      } // Static
-      ;
+      }; // Static
 
       Treeview._jQueryInterface = function _jQueryInterface(config) {
         return this.each(function () {
@@ -895,12 +1015,11 @@
       };
 
       return Treeview;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
-
 
     $(window).on(Event.LOAD_DATA_API, function () {
       $(Selector.DATA_WIDGET).each(function () {
@@ -921,7 +1040,7 @@
     };
 
     return Treeview;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -929,7 +1048,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var DirectChat = function ($) {
+  var DirectChat = (function ($) {
     /**
      * Constants
      * ====================================================
@@ -938,21 +1057,21 @@
     var DATA_KEY = 'lte.directchat';
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      TOGGLED: "toggled{EVENT_KEY}"
+      TOGGLED: 'toggled{EVENT_KEY}',
     };
     var Selector = {
       DATA_TOGGLE: '[data-widget="chat-pane-toggle"]',
-      DIRECT_CHAT: '.direct-chat'
+      DIRECT_CHAT: '.direct-chat',
     };
     var ClassName = {
-      DIRECT_CHAT_OPEN: 'direct-chat-contacts-open'
+      DIRECT_CHAT_OPEN: 'direct-chat-contacts-open',
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var DirectChat = /*#__PURE__*/function () {
+    var DirectChat = /*#__PURE__*/ (function () {
       function DirectChat(element, config) {
         this._element = element;
       }
@@ -960,11 +1079,13 @@
       var _proto = DirectChat.prototype;
 
       _proto.toggle = function toggle() {
-        $(this._element).parents(Selector.DIRECT_CHAT).first().toggleClass(ClassName.DIRECT_CHAT_OPEN);
+        $(this._element)
+          .parents(Selector.DIRECT_CHAT)
+          .first()
+          .toggleClass(ClassName.DIRECT_CHAT_OPEN);
         var toggledEvent = $.Event(Event.TOGGLED);
         $(this._element).trigger(toggledEvent);
-      } // Static
-      ;
+      }; // Static
 
       DirectChat._jQueryInterface = function _jQueryInterface(config) {
         return this.each(function () {
@@ -980,13 +1101,12 @@
       };
 
       return DirectChat;
-    }();
+    })();
     /**
      *
      * Data Api implementation
      * ====================================================
      */
-
 
     $(document).on('click', Selector.DATA_TOGGLE, function (event) {
       if (event) event.preventDefault();
@@ -1007,7 +1127,7 @@
     };
 
     return DirectChat;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1015,7 +1135,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var TodoList = function ($) {
+  var TodoList = (function ($) {
     /**
      * Constants
      * ====================================================
@@ -1024,10 +1144,10 @@
     var DATA_KEY = 'lte.todolist';
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Selector = {
-      DATA_TOGGLE: '[data-widget="todo-list"]'
+      DATA_TOGGLE: '[data-widget="todo-list"]',
     };
     var ClassName = {
-      TODO_LIST_DONE: 'done'
+      TODO_LIST_DONE: 'done',
     };
     var Default = {
       onCheck: function onCheck(item) {
@@ -1035,21 +1155,20 @@
       },
       onUnCheck: function onUnCheck(item) {
         return item;
-      }
+      },
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var TodoList = /*#__PURE__*/function () {
+    var TodoList = /*#__PURE__*/ (function () {
       function TodoList(element, config) {
         this._config = config;
         this._element = element;
 
         this._init();
       } // Public
-
 
       var _proto = TodoList.prototype;
 
@@ -1070,17 +1189,22 @@
 
       _proto.unCheck = function unCheck(item) {
         this._config.onUnCheck.call(item);
-      } // Private
-      ;
+      }; // Private
 
       _proto._init = function _init() {
         var that = this;
-        $(Selector.DATA_TOGGLE).find('input:checkbox:checked').parents('li').toggleClass(ClassName.TODO_LIST_DONE);
-        $(Selector.DATA_TOGGLE).on('change', 'input:checkbox', function (event) {
-          that.toggle($(event.target));
-        });
-      } // Static
-      ;
+        $(Selector.DATA_TOGGLE)
+          .find('input:checkbox:checked')
+          .parents('li')
+          .toggleClass(ClassName.TODO_LIST_DONE);
+        $(Selector.DATA_TOGGLE).on(
+          'change',
+          'input:checkbox',
+          function (event) {
+            that.toggle($(event.target));
+          }
+        );
+      }; // Static
 
       TodoList._jQueryInterface = function _jQueryInterface(config) {
         return this.each(function () {
@@ -1100,12 +1224,11 @@
       };
 
       return TodoList;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
-
 
     $(window).on('load', function () {
       TodoList._jQueryInterface.call($(Selector.DATA_TOGGLE));
@@ -1124,7 +1247,7 @@
     };
 
     return TodoList;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1132,21 +1255,21 @@
    * License MIT
    * --------------------------------------------
    */
-  var CardWidget = function ($) {
+  var CardWidget = (function ($) {
     /**
      * Constants
      * ====================================================
      */
     var NAME = 'CardWidget';
     var DATA_KEY = 'lte.cardwidget';
-    var EVENT_KEY = "." + DATA_KEY;
+    var EVENT_KEY = '.' + DATA_KEY;
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      EXPANDED: "expanded" + EVENT_KEY,
-      COLLAPSED: "collapsed" + EVENT_KEY,
-      MAXIMIZED: "maximized" + EVENT_KEY,
-      MINIMIZED: "minimized" + EVENT_KEY,
-      REMOVED: "removed" + EVENT_KEY
+      EXPANDED: 'expanded' + EVENT_KEY,
+      COLLAPSED: 'collapsed' + EVENT_KEY,
+      MAXIMIZED: 'maximized' + EVENT_KEY,
+      MINIMIZED: 'minimized' + EVENT_KEY,
+      REMOVED: 'removed' + EVENT_KEY,
     };
     var ClassName = {
       CARD: 'card',
@@ -1154,17 +1277,17 @@
       COLLAPSING: 'collapsing-card',
       EXPANDING: 'expanding-card',
       WAS_COLLAPSED: 'was-collapsed',
-      MAXIMIZED: 'maximized-card'
+      MAXIMIZED: 'maximized-card',
     };
     var Selector = {
       DATA_REMOVE: '[data-card-widget="remove"]',
       DATA_COLLAPSE: '[data-card-widget="collapse"]',
       DATA_MAXIMIZE: '[data-card-widget="maximize"]',
-      CARD: "." + ClassName.CARD,
+      CARD: '.' + ClassName.CARD,
       CARD_HEADER: '.card-header',
       CARD_BODY: '.card-body',
       CARD_FOOTER: '.card-footer',
-      COLLAPSED: "." + ClassName.COLLAPSED
+      COLLAPSED: '.' + ClassName.COLLAPSED,
     };
     var Default = {
       animationSpeed: 'normal',
@@ -1174,10 +1297,10 @@
       collapseIcon: 'fa-minus',
       expandIcon: 'fa-plus',
       maximizeIcon: 'fa-expand',
-      minimizeIcon: 'fa-compress'
+      minimizeIcon: 'fa-compress',
     };
 
-    var CardWidget = /*#__PURE__*/function () {
+    var CardWidget = /*#__PURE__*/ (function () {
       function CardWidget(element, settings) {
         this._element = element;
         this._parent = element.parents(Selector.CARD).first();
@@ -1194,11 +1317,26 @@
       _proto.collapse = function collapse() {
         var _this = this;
 
-        this._parent.addClass(ClassName.COLLAPSING).children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideUp(this._settings.animationSpeed, function () {
-          _this._parent.addClass(ClassName.COLLAPSED).removeClass(ClassName.COLLAPSING);
-        });
+        this._parent
+          .addClass(ClassName.COLLAPSING)
+          .children(Selector.CARD_BODY + ', ' + Selector.CARD_FOOTER)
+          .slideUp(this._settings.animationSpeed, function () {
+            _this._parent
+              .addClass(ClassName.COLLAPSED)
+              .removeClass(ClassName.COLLAPSING);
+          });
 
-        this._parent.find('> ' + Selector.CARD_HEADER + ' ' + this._settings.collapseTrigger + ' .' + this._settings.collapseIcon).addClass(this._settings.expandIcon).removeClass(this._settings.collapseIcon);
+        this._parent
+          .find(
+            '> ' +
+              Selector.CARD_HEADER +
+              ' ' +
+              this._settings.collapseTrigger +
+              ' .' +
+              this._settings.collapseIcon
+          )
+          .addClass(this._settings.expandIcon)
+          .removeClass(this._settings.collapseIcon);
 
         var collapsed = $.Event(Event.COLLAPSED);
 
@@ -1208,11 +1346,26 @@
       _proto.expand = function expand() {
         var _this2 = this;
 
-        this._parent.addClass(ClassName.EXPANDING).children(Selector.CARD_BODY + ", " + Selector.CARD_FOOTER).slideDown(this._settings.animationSpeed, function () {
-          _this2._parent.removeClass(ClassName.COLLAPSED).removeClass(ClassName.EXPANDING);
-        });
+        this._parent
+          .addClass(ClassName.EXPANDING)
+          .children(Selector.CARD_BODY + ', ' + Selector.CARD_FOOTER)
+          .slideDown(this._settings.animationSpeed, function () {
+            _this2._parent
+              .removeClass(ClassName.COLLAPSED)
+              .removeClass(ClassName.EXPANDING);
+          });
 
-        this._parent.find('> ' + Selector.CARD_HEADER + ' ' + this._settings.collapseTrigger + ' .' + this._settings.expandIcon).addClass(this._settings.collapseIcon).removeClass(this._settings.expandIcon);
+        this._parent
+          .find(
+            '> ' +
+              Selector.CARD_HEADER +
+              ' ' +
+              this._settings.collapseTrigger +
+              ' .' +
+              this._settings.expandIcon
+          )
+          .addClass(this._settings.collapseIcon)
+          .removeClass(this._settings.expandIcon);
 
         var expanded = $.Event(Event.EXPANDED);
 
@@ -1237,22 +1390,30 @@
       };
 
       _proto.maximize = function maximize() {
-        this._parent.find(this._settings.maximizeTrigger + ' .' + this._settings.maximizeIcon).addClass(this._settings.minimizeIcon).removeClass(this._settings.maximizeIcon);
+        this._parent
+          .find(
+            this._settings.maximizeTrigger + ' .' + this._settings.maximizeIcon
+          )
+          .addClass(this._settings.minimizeIcon)
+          .removeClass(this._settings.maximizeIcon);
 
-        this._parent.css({
-          'height': this._parent.height(),
-          'width': this._parent.width(),
-          'transition': 'all .15s'
-        }).delay(150).queue(function () {
-          $(this).addClass(ClassName.MAXIMIZED);
-          $('html').addClass(ClassName.MAXIMIZED);
+        this._parent
+          .css({
+            height: this._parent.height(),
+            width: this._parent.width(),
+            transition: 'all .15s',
+          })
+          .delay(150)
+          .queue(function () {
+            $(this).addClass(ClassName.MAXIMIZED);
+            $('html').addClass(ClassName.MAXIMIZED);
 
-          if ($(this).hasClass(ClassName.COLLAPSED)) {
-            $(this).addClass(ClassName.WAS_COLLAPSED);
-          }
+            if ($(this).hasClass(ClassName.COLLAPSED)) {
+              $(this).addClass(ClassName.WAS_COLLAPSED);
+            }
 
-          $(this).dequeue();
-        });
+            $(this).dequeue();
+          });
 
         var maximized = $.Event(Event.MAXIMIZED);
 
@@ -1260,22 +1421,38 @@
       };
 
       _proto.minimize = function minimize() {
-        this._parent.find(this._settings.maximizeTrigger + ' .' + this._settings.minimizeIcon).addClass(this._settings.maximizeIcon).removeClass(this._settings.minimizeIcon);
+        this._parent
+          .find(
+            this._settings.maximizeTrigger + ' .' + this._settings.minimizeIcon
+          )
+          .addClass(this._settings.maximizeIcon)
+          .removeClass(this._settings.minimizeIcon);
 
-        this._parent.css('cssText', 'height:' + this._parent[0].style.height + ' !important;' + 'width:' + this._parent[0].style.width + ' !important; transition: all .15s;').delay(10).queue(function () {
-          $(this).removeClass(ClassName.MAXIMIZED);
-          $('html').removeClass(ClassName.MAXIMIZED);
-          $(this).css({
-            'height': 'inherit',
-            'width': 'inherit'
+        this._parent
+          .css(
+            'cssText',
+            'height:' +
+              this._parent[0].style.height +
+              ' !important;' +
+              'width:' +
+              this._parent[0].style.width +
+              ' !important; transition: all .15s;'
+          )
+          .delay(10)
+          .queue(function () {
+            $(this).removeClass(ClassName.MAXIMIZED);
+            $('html').removeClass(ClassName.MAXIMIZED);
+            $(this).css({
+              height: 'inherit',
+              width: 'inherit',
+            });
+
+            if ($(this).hasClass(ClassName.WAS_COLLAPSED)) {
+              $(this).removeClass(ClassName.WAS_COLLAPSED);
+            }
+
+            $(this).dequeue();
           });
-
-          if ($(this).hasClass(ClassName.WAS_COLLAPSED)) {
-            $(this).removeClass(ClassName.WAS_COLLAPSED);
-          }
-
-          $(this).dequeue();
-        });
 
         var MINIMIZED = $.Event(Event.MINIMIZED);
 
@@ -1289,24 +1466,28 @@
         }
 
         this.maximize();
-      } // Private
-      ;
+      }; // Private
 
       _proto._init = function _init(card) {
         var _this3 = this;
 
         this._parent = card;
-        $(this).find(this._settings.collapseTrigger).click(function () {
-          _this3.toggle();
-        });
-        $(this).find(this._settings.maximizeTrigger).click(function () {
-          _this3.toggleMaximize();
-        });
-        $(this).find(this._settings.removeTrigger).click(function () {
-          _this3.remove();
-        });
-      } // Static
-      ;
+        $(this)
+          .find(this._settings.collapseTrigger)
+          .click(function () {
+            _this3.toggle();
+          });
+        $(this)
+          .find(this._settings.maximizeTrigger)
+          .click(function () {
+            _this3.toggleMaximize();
+          });
+        $(this)
+          .find(this._settings.removeTrigger)
+          .click(function () {
+            _this3.remove();
+          });
+      }; // Static
 
       CardWidget._jQueryInterface = function _jQueryInterface(config) {
         var data = $(this).data(DATA_KEY);
@@ -1318,7 +1499,12 @@
           $(this).data(DATA_KEY, typeof config === 'string' ? data : config);
         }
 
-        if (typeof config === 'string' && config.match(/collapse|expand|remove|toggle|maximize|minimize|toggleMaximize/)) {
+        if (
+          typeof config === 'string' &&
+          config.match(
+            /collapse|expand|remove|toggle|maximize|minimize|toggleMaximize/
+          )
+        ) {
           data[config]();
         } else if (typeof config === 'object') {
           data._init($(this));
@@ -1326,12 +1512,11 @@
       };
 
       return CardWidget;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
-
 
     $(document).on('click', Selector.DATA_COLLAPSE, function (event) {
       if (event) {
@@ -1368,7 +1553,7 @@
     };
 
     return CardWidget;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1376,26 +1561,26 @@
    * License MIT
    * --------------------------------------------
    */
-  var CardRefresh = function ($) {
+  var CardRefresh = (function ($) {
     /**
      * Constants
      * ====================================================
      */
     var NAME = 'CardRefresh';
     var DATA_KEY = 'lte.cardrefresh';
-    var EVENT_KEY = "." + DATA_KEY;
+    var EVENT_KEY = '.' + DATA_KEY;
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      LOADED: "loaded" + EVENT_KEY,
-      OVERLAY_ADDED: "overlay.added" + EVENT_KEY,
-      OVERLAY_REMOVED: "overlay.removed" + EVENT_KEY
+      LOADED: 'loaded' + EVENT_KEY,
+      OVERLAY_ADDED: 'overlay.added' + EVENT_KEY,
+      OVERLAY_REMOVED: 'overlay.removed' + EVENT_KEY,
     };
     var ClassName = {
-      CARD: 'card'
+      CARD: 'card',
     };
     var Selector = {
-      CARD: "." + ClassName.CARD,
-      DATA_REFRESH: '[data-card-widget="card-refresh"]'
+      CARD: '.' + ClassName.CARD,
+      DATA_REFRESH: '[data-card-widget="card-refresh"]',
     };
     var Default = {
       source: '',
@@ -1406,14 +1591,15 @@
       loadInContent: true,
       loadOnInit: true,
       responseType: '',
-      overlayTemplate: '<div class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>',
+      overlayTemplate:
+        '<div class="overlay"><i class="fas fa-2x fa-sync-alt fa-spin"></i></div>',
       onLoadStart: function onLoadStart() {},
       onLoadDone: function onLoadDone(response) {
         return response;
-      }
+      },
     };
 
-    var CardRefresh = /*#__PURE__*/function () {
+    var CardRefresh = /*#__PURE__*/ (function () {
       function CardRefresh(element, settings) {
         this._element = element;
         this._parent = element.parents(Selector.CARD).first();
@@ -1425,7 +1611,9 @@
         }
 
         if (this._settings.source === '') {
-          throw new Error('Source url was not defined. Please specify a url in your CardRefresh source option.');
+          throw new Error(
+            'Source url was not defined. Please specify a url in your CardRefresh source option.'
+          );
         }
       }
 
@@ -1436,19 +1624,26 @@
 
         this._settings.onLoadStart.call($(this));
 
-        $.get(this._settings.source, this._settings.params, function (response) {
-          if (this._settings.loadInContent) {
-            if (this._settings.sourceSelector != '') {
-              response = $(response).find(this._settings.sourceSelector).html();
+        $.get(
+          this._settings.source,
+          this._settings.params,
+          function (response) {
+            if (this._settings.loadInContent) {
+              if (this._settings.sourceSelector != '') {
+                response = $(response)
+                  .find(this._settings.sourceSelector)
+                  .html();
+              }
+
+              this._parent.find(this._settings.content).html(response);
             }
 
-            this._parent.find(this._settings.content).html(response);
-          }
+            this._settings.onLoadDone.call($(this), response);
 
-          this._settings.onLoadDone.call($(this), response);
-
-          this._removeOverlay();
-        }.bind(this), this._settings.responseType !== '' && this._settings.responseType);
+            this._removeOverlay();
+          }.bind(this),
+          this._settings.responseType !== '' && this._settings.responseType
+        );
         var loadedEvent = $.Event(Event.LOADED);
         $(this._element).trigger(loadedEvent);
       };
@@ -1471,15 +1666,16 @@
       _proto._init = function _init(card) {
         var _this = this;
 
-        $(this).find(this._settings.trigger).on('click', function () {
-          _this.load();
-        });
+        $(this)
+          .find(this._settings.trigger)
+          .on('click', function () {
+            _this.load();
+          });
 
         if (this._settings.loadOnInit) {
           this.load();
         }
-      } // Static
-      ;
+      }; // Static
 
       CardRefresh._jQueryInterface = function _jQueryInterface(config) {
         var data = $(this).data(DATA_KEY);
@@ -1499,12 +1695,11 @@
       };
 
       return CardRefresh;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
-
 
     $(document).on('click', Selector.DATA_REFRESH, function (event) {
       if (event) {
@@ -1532,7 +1727,7 @@
     };
 
     return CardRefresh;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1540,7 +1735,7 @@
    * License MIT
    * --------------------------------------------
    */
-  var Dropdown = function ($) {
+  var Dropdown = (function ($) {
     /**
      * Constants
      * ====================================================
@@ -1552,11 +1747,11 @@
       NAVBAR: '.navbar',
       DROPDOWN_MENU: '.dropdown-menu',
       DROPDOWN_MENU_ACTIVE: '.dropdown-menu.show',
-      DROPDOWN_TOGGLE: '[data-toggle="dropdown"]'
+      DROPDOWN_TOGGLE: '[data-toggle="dropdown"]',
     };
     var ClassName = {
       DROPDOWN_HOVER: 'dropdown-hover',
-      DROPDOWN_RIGHT: 'dropdown-menu-right'
+      DROPDOWN_RIGHT: 'dropdown-menu-right',
     };
     var Default = {};
     /**
@@ -1564,25 +1759,31 @@
      * ====================================================
      */
 
-    var Dropdown = /*#__PURE__*/function () {
+    var Dropdown = /*#__PURE__*/ (function () {
       function Dropdown(element, config) {
         this._config = config;
         this._element = element;
       } // Public
 
-
       var _proto = Dropdown.prototype;
 
       _proto.toggleSubmenu = function toggleSubmenu() {
-        this._element.siblings().show().toggleClass("show");
+        this._element.siblings().show().toggleClass('show');
 
         if (!this._element.next().hasClass('show')) {
-          this._element.parents('.dropdown-menu').first().find('.show').removeClass("show").hide();
+          this._element
+            .parents('.dropdown-menu')
+            .first()
+            .find('.show')
+            .removeClass('show')
+            .hide();
         }
 
-        this._element.parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
-          $('.dropdown-submenu .show').removeClass("show").hide();
-        });
+        this._element
+          .parents('li.nav-item.dropdown.show')
+          .on('hidden.bs.dropdown', function (e) {
+            $('.dropdown-submenu .show').removeClass('show').hide();
+          });
       };
 
       _proto.fixPosition = function fixPosition() {
@@ -1612,8 +1813,7 @@
             }
           }
         }
-      } // Static
-      ;
+      }; // Static
 
       Dropdown._jQueryInterface = function _jQueryInterface(config) {
         return this.each(function () {
@@ -1633,25 +1833,30 @@
       };
 
       return Dropdown;
-    }();
+    })();
     /**
      * Data API
      * ====================================================
      */
 
+    $(Selector.DROPDOWN_MENU + ' ' + Selector.DROPDOWN_TOGGLE).on(
+      'click',
+      function (event) {
+        event.preventDefault();
+        event.stopPropagation();
 
-    $(Selector.DROPDOWN_MENU + ' ' + Selector.DROPDOWN_TOGGLE).on("click", function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      Dropdown._jQueryInterface.call($(this), 'toggleSubmenu');
-    });
-    $(Selector.NAVBAR + ' ' + Selector.DROPDOWN_TOGGLE).on("click", function (event) {
-      event.preventDefault();
-      setTimeout(function () {
-        Dropdown._jQueryInterface.call($(this), 'fixPosition');
-      }, 1);
-    });
+        Dropdown._jQueryInterface.call($(this), 'toggleSubmenu');
+      }
+    );
+    $(Selector.NAVBAR + ' ' + Selector.DROPDOWN_TOGGLE).on(
+      'click',
+      function (event) {
+        event.preventDefault();
+        setTimeout(function () {
+          Dropdown._jQueryInterface.call($(this), 'fixPosition');
+        }, 1);
+      }
+    );
     /**
      * jQuery API
      * ====================================================
@@ -1666,7 +1871,7 @@
     };
 
     return Dropdown;
-  }(jQuery);
+  })(jQuery);
 
   /**
    * --------------------------------------------
@@ -1674,39 +1879,39 @@
    * License MIT
    * --------------------------------------------
    */
-  var Toasts = function ($) {
+  var Toasts = (function ($) {
     /**
      * Constants
      * ====================================================
      */
     var NAME = 'Toasts';
     var DATA_KEY = 'lte.toasts';
-    var EVENT_KEY = "." + DATA_KEY;
+    var EVENT_KEY = '.' + DATA_KEY;
     var JQUERY_NO_CONFLICT = $.fn[NAME];
     var Event = {
-      INIT: "init" + EVENT_KEY,
-      CREATED: "created" + EVENT_KEY,
-      REMOVED: "removed" + EVENT_KEY
+      INIT: 'init' + EVENT_KEY,
+      CREATED: 'created' + EVENT_KEY,
+      REMOVED: 'removed' + EVENT_KEY,
     };
     var Selector = {
       BODY: 'toast-body',
       CONTAINER_TOP_RIGHT: '#toastsContainerTopRight',
       CONTAINER_TOP_LEFT: '#toastsContainerTopLeft',
       CONTAINER_BOTTOM_RIGHT: '#toastsContainerBottomRight',
-      CONTAINER_BOTTOM_LEFT: '#toastsContainerBottomLeft'
+      CONTAINER_BOTTOM_LEFT: '#toastsContainerBottomLeft',
     };
     var ClassName = {
       TOP_RIGHT: 'toasts-top-right',
       TOP_LEFT: 'toasts-top-left',
       BOTTOM_RIGHT: 'toasts-bottom-right',
       BOTTOM_LEFT: 'toasts-bottom-left',
-      FADE: 'fade'
+      FADE: 'fade',
     };
     var Position = {
       TOP_RIGHT: 'topRight',
       TOP_LEFT: 'topLeft',
       BOTTOM_RIGHT: 'bottomRight',
-      BOTTOM_LEFT: 'bottomLeft'
+      BOTTOM_LEFT: 'bottomLeft',
     };
     var Default = {
       position: Position.TOP_RIGHT,
@@ -1723,14 +1928,14 @@
       subtitle: null,
       close: true,
       body: null,
-      class: null
+      class: null,
     };
     /**
      * Class Definition
      * ====================================================
      */
 
-    var Toasts = /*#__PURE__*/function () {
+    var Toasts = /*#__PURE__*/ (function () {
       function Toasts(element, config) {
         this._config = config;
 
@@ -1740,11 +1945,12 @@
         $('body').trigger(initEvent);
       } // Public
 
-
       var _proto = Toasts.prototype;
 
       _proto.create = function create() {
-        var toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"/>');
+        var toast = $(
+          '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"/>'
+        );
         toast.data('autohide', this._config.autohide);
         toast.data('animation', this._config.fade);
 
@@ -1759,7 +1965,10 @@
         var toast_header = $('<div class="toast-header">');
 
         if (this._config.image != null) {
-          var toast_image = $('<img />').addClass('rounded mr-2').attr('src', this._config.image).attr('alt', this._config.imageAlt);
+          var toast_image = $('<img />')
+            .addClass('rounded mr-2')
+            .attr('src', this._config.image)
+            .attr('alt', this._config.imageAlt);
 
           if (this._config.imageHeight != null) {
             toast_image.height(this._config.imageHeight).width('auto');
@@ -1769,11 +1978,15 @@
         }
 
         if (this._config.icon != null) {
-          toast_header.append($('<i />').addClass('mr-2').addClass(this._config.icon));
+          toast_header.append(
+            $('<i />').addClass('mr-2').addClass(this._config.icon)
+          );
         }
 
         if (this._config.title != null) {
-          toast_header.append($('<strong />').addClass('mr-auto').html(this._config.title));
+          toast_header.append(
+            $('<strong />').addClass('mr-auto').html(this._config.title)
+          );
         }
 
         if (this._config.subtitle != null) {
@@ -1781,7 +1994,11 @@
         }
 
         if (this._config.close == true) {
-          var toast_close = $('<button data-dismiss="toast" />').attr('type', 'button').addClass('ml-2 mb-1 close').attr('aria-label', 'Close').append('<span aria-hidden="true">&times;</span>');
+          var toast_close = $('<button data-dismiss="toast" />')
+            .attr('type', 'button')
+            .addClass('ml-2 mb-1 close')
+            .attr('aria-label', 'Close')
+            .append('<span aria-hidden="true">&times;</span>');
 
           if (this._config.title == null) {
             toast_close.toggleClass('ml-2 ml-auto');
@@ -1808,8 +2025,7 @@
             $('body').trigger(removedEvent);
           });
         }
-      } // Static
-      ;
+      }; // Static
 
       _proto._getContainerId = function _getContainerId() {
         if (this._config.position == Position.TOP_RIGHT) {
@@ -1825,7 +2041,10 @@
 
       _proto._prepareContainer = function _prepareContainer() {
         if ($(this._getContainerId()).length === 0) {
-          var container = $('<div />').attr('id', this._getContainerId().replace('#', ''));
+          var container = $('<div />').attr(
+            'id',
+            this._getContainerId().replace('#', '')
+          );
 
           if (this._config.position == Position.TOP_RIGHT) {
             container.addClass(ClassName.TOP_RIGHT);
@@ -1845,8 +2064,7 @@
         } else {
           $(this._getContainerId()).removeClass('fixed');
         }
-      } // Static
-      ;
+      }; // Static
 
       Toasts._jQueryInterface = function _jQueryInterface(option, config) {
         return this.each(function () {
@@ -1861,12 +2079,11 @@
       };
 
       return Toasts;
-    }();
+    })();
     /**
      * jQuery API
      * ====================================================
      */
-
 
     $.fn[NAME] = Toasts._jQueryInterface;
     $.fn[NAME].Constructor = Toasts;
@@ -1877,7 +2094,7 @@
     };
 
     return Toasts;
-  }(jQuery);
+  })(jQuery);
 
   exports.CardRefresh = CardRefresh;
   exports.CardWidget = CardWidget;
@@ -1891,6 +2108,5 @@
   exports.Treeview = Treeview;
 
   Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+});
 //# sourceMappingURL=adminlte.js.map

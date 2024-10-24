@@ -9,6 +9,4 @@ import RowReorder from 'datatables.net-rowreorder';
 // Allow reassignment of the $ variable
 let $ = jQuery;
 
-
-
 export default DataTable;

@@ -9,8 +9,6 @@ import AutoFill from 'datatables.net-autofill';
 // Allow reassignment of the $ variable
 let $ = jQuery;
 
-
 DataTable.AutoFill.classes.btn = 'btn btn-primary';
-
 
 export default DataTable;

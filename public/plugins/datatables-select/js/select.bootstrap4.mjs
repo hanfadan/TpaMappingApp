@@ -9,6 +9,4 @@ import select from 'datatables.net-select';
 // Allow reassignment of the $ variable
 let $ = jQuery;
 
-
-
 export default DataTable;

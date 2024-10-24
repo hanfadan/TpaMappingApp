@@ -16,19 +16,18 @@ Here is an example of using both the bind and helper method syntax:
 
 ```js
 // using on
-$('#my_elem').on('mousewheel', function(event) {
-    console.log(event.deltaX, event.deltaY, event.deltaFactor);
+$('#my_elem').on('mousewheel', function (event) {
+  console.log(event.deltaX, event.deltaY, event.deltaFactor);
 });
 
 // using the event helper
-$('#my_elem').mousewheel(function(event) {
-    console.log(event.deltaX, event.deltaY, event.deltaFactor);
+$('#my_elem').mousewheel(function (event) {
+  console.log(event.deltaX, event.deltaY, event.deltaFactor);
 });
 ```
 
 The old behavior of adding three arguments (`delta`, `deltaX`, and `deltaY`) to the
 event handler is now deprecated and will be removed in later releases.
-
 
 ## The Deltas...
 
@@ -47,7 +46,6 @@ event property to find the scroll distance the browser reported.
 The `deltaFactor` property was added to the event object in 3.1.5 so that the actual reported delta value can be
 extracted. This is a non-standard property.
 
-
 ## Using with [Browserify](http://browserify.org)
 
 Support for browserify is baked in.
@@ -63,9 +61,11 @@ In your server-side node.js code:
 var express = require('express');
 var app = express.createServer();
 
-app.use(require('browserify')({
-    require : [ 'jquery-browserify', 'jquery-mousewheel' ]
-}));
+app.use(
+  require('browserify')({
+    require: ['jquery-browserify', 'jquery-mousewheel'],
+  })
+);
 ```
 
 In your browser-side javascript:

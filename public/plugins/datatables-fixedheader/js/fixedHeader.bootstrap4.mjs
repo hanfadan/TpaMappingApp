@@ -9,6 +9,4 @@ import FixedHeader from 'datatables.net-fixedheader';
 // Allow reassignment of the $ variable
 let $ = jQuery;
 
-
-
 export default DataTable;
