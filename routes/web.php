@@ -15,13 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (auth()->check()) {
+        // Jika pengguna sudah login, arahkan ke dashboard
+        return redirect()->route('dashboard');
+    }
+    // Jika pengguna belum login, arahkan ke halaman login
+    return redirect()->route('login');
 });
 
+// Route untuk dashboard, hanya bisa diakses jika pengguna sudah login
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth']);
+})->middleware(['auth'])->name('dashboard');
 
+// Group route yang hanya bisa diakses jika pengguna sudah login
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
